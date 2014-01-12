@@ -32,18 +32,16 @@ public class MainActivity extends Activity {
  
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    	Log.d("picture",requestCode+ " "+resultCode);
     	if (requestCode == REQUEST_IMAGE_CAPTURE){
-    		Toast.makeText(this, "picture take", Toast.LENGTH_SHORT).show();
     		Bundle extras = data.getExtras();
+    		if (extras == null) return;
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            
+            if (imageBitmap == null) return;
             //send as string (this would work over bluetooth)
+            Toast.makeText(this, "picture taken", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(this,PictureSerializing.class);
             i.putExtra("img", PictureSerializer.serialize(imageBitmap));
             startActivity(i);
-    	}else{
-    		Toast.makeText(this, "picture not take", Toast.LENGTH_SHORT).show();
     	}
     }
     
